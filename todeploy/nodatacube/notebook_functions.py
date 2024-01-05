@@ -163,10 +163,11 @@ def ls_clean_mask(dataset, keep_water=False):
 
     if keep_water == False:
         # Combine the water and cloud masks (inverting water so that non-water areas are True)
-        combined_mask = ((~water_mask) & cloud_mask)
+        water_mask = ~water_mask
+        combined_mask = water_mask.where(cloud_mask)
     if keep_water == True:
         # Combine the water and cloud masks (not inverting water so that water areas are True)
-        combined_mask = ((water_mask) & cloud_mask)
+        combined_mask = water_mask.where(cloud_mask)
 
     return combined_mask
     
